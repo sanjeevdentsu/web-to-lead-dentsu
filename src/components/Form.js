@@ -1,17 +1,19 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 import "./Form.css";
 const Form = () => {
     const [userData, setUserData] = useState({
-        salutation: "",
-        fname: "",
-        lname: "",
-        cname: "",
-        lsource: "",
-        lstatus: "",
-        ptest: ""
+        Salutation: "",
+        FirstName: "",
+        LastName: "",
+        Company: "",
+        LeadSource: "",
+        Status: "",
+        ProductInterest__c: ""
     });
 
+    
     const [data, setData] = useState([])
 
     const handleInput = (e) => {
@@ -20,7 +22,6 @@ const Form = () => {
         console.log(alldata, value);
 
         setUserData({ ...userData, [alldata]: value });
-
     }
 
     const handleSubmit = (e) => {
@@ -28,16 +29,23 @@ const Form = () => {
         const newData = { ...userData }
         setData([...data, newData]);
         console.log(userData);
+
+
+        axios.post("https://dentsuworldservices-8b-dev-ed.lightning.force.com/services/data/v54.0/sobjects/Lead",userData)
+        .then((resp) => {
+          console.log(resp.data)
+        })
     }
     return (
         <>
             <div className="container">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} >
                     <ul className="form-style-1">
                         <h1 className="form-heading">Form in React js</h1>
                         <li>
-                            <label htmlFor="salutation">Salutation</label>
-                            <select name="salutation" value={userData.salutation} className="field-select" onChange={handleInput}>
+                            <label htmlFor="Salutation">Salutation</label>
+                            <select name="Salutation" value={userData.Salutation} className="field-select" onChange={handleInput}>
+                             <option>Select</option>
                                 <option>Mr.</option>
                                 <option>Ms.</option>
                                 <option>Mrs.</option>
@@ -47,35 +55,35 @@ const Form = () => {
                         </li>
 
                         <li>
-                            <label htmlFor="fname">First Name <span className="required">*</span></label>
-                            <input type="text" name="fname" value={userData.fname} className="field-long" onChange={handleInput} />
+                            <label htmlFor="FirstName">First Name <span className="required">*</span></label>
+                            <input type="text" name="FirstName" value={userData.FirstName} className="field-long" onChange={handleInput} />
                         </li>
 
                         <li>
-                            <label htmlFor="lname">Last Name <span className="required">*</span></label>
-                            <input type="text" name="lname" value={userData.lname} className="field-long" onChange={handleInput} />
+                            <label htmlFor="LastName">Last Name <span className="required">*</span></label>
+                            <input type="text" name="LastName" value={userData.LastName} className="field-long" onChange={handleInput} />
                         </li>
 
                         <li>
-                            <label htmlFor="cname">Company Name<span className="required">*</span></label>
-                            <input type="text" name="cname" value={userData.cname} className="field-long" onChange={handleInput} />
+                            <label htmlFor="Company">Company Name<span className="required">*</span></label>
+                            <input type="text" name="Company" value={userData.Company} className="field-long" onChange={handleInput} />
                         </li>
 
                         <li>
-                            <label htmlFor="lsource"> Lead Source</label>
+                            <label htmlFor="LeadSource"> Lead Source</label>
                             <input
                                 type="text"
-                                name="lsource"
-                                value={userData.lsource}
-                                className="field-long"
-                                placeholder="Web to lead"
+                                name="LeadSource"
+                                value={userData.LeadSource="Web-to-lead"}
+                                className="field-long restrict-btn"
+                                
                                 onChange={handleInput}
 
                             />
                         </li>
                         <li>
-                            <label htmlFor="lstatus"> Lead Status <span className="required">*</span></label>
-                            <select name="lstatus" value={userData.lstatus} className="field-select" onChange={handleInput}>
+                            <label htmlFor="Status"> Lead Status <span className="required">*</span></label>
+                            <select name="Status" value={userData.Status} className="field-select" onChange={handleInput}>
                                 <option>--None--</option>
                                 <option>Open - Not Connected</option>
                                 <option>Working - Contacted</option>
@@ -84,11 +92,11 @@ const Form = () => {
                             </select>
                         </li>
                         <li>
-                            <label htmlFor="ptest">Product in Test<span className="required">*</span></label>
-                            <select name="ptest" value={userData.ptest} className="field-select" onChange={handleInput}>
-                                <option>Option1</option>
-                                <option>Option2</option>
-                                <option>Option3</option>
+                            <label htmlFor="ProductInterest__c">Product in Test<span className="required">*</span></label>
+                            <select name="ProductInterest__c" value={userData.ProductInterest__c} className="field-select" onChange={handleInput}>
+                                <option>None</option>
+                                <option>Commerce</option>
+                              
                             </select>
                         </li>
                         <li>

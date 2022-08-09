@@ -65,3 +65,6 @@ select {
 .form-style-1 .required {
   color: red;
 }
+.restrict-btn{
+  pointer-events: none;
+}
